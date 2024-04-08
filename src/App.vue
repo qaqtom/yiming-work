@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container">
-      <SatelliteSheets :data="data"  :listLoading="loading" />
+      <SatelliteSheets :data="data" :satelliteNameArray="satelliteNameArray" :listLoading="loading" />
     </div>
     
   </div>
@@ -18,12 +18,21 @@ export default {
   data(){
     return{
       loading:false,
+      satelliteNameArray:[],
     }
   },
   created(){
     this.loading = true;
-    this.$store.dispatch("satellite/fetchData");
+    this.$store.dispatch("satellite/fetchData").then(()=>{
+      this.data.forEach((item) => {
+      if (!this.satelliteNameArray.includes(item.idOfName)) {
+        this.satelliteNameArray.push(item.idOfName);
+      } 
+    })
+    this.satelliteNameArray.push("全部");
     this.loading = false;
+    })
+    
   },
   computed:{
     ...mapState("satellite",["data"]),
