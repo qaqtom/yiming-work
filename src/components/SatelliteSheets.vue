@@ -40,7 +40,7 @@
     >
 
     <el-table
-      :data="data"
+      :data="currentData"
       border
       style="width: 100%"
       v-loading="loading"
@@ -63,6 +63,8 @@
         </template>
       </el-table-column>
     </el-table>
+
+    
   </div>
 </template>
 
@@ -94,15 +96,24 @@
 export default {
   data() {
     return {
-      originData: [],
+      currentData: [],
       current: "全部",
       input: "",
       value1: true,
     };
   },
-  created() {
-    this.originData = this.data;
+  watch: {
+    data: {
+      handler(newData) {
+        this.currentData = newData;
+      },
+      immediate: true,
+    },
   },
+  // mounted() {
+  //   this.currentData = this.data;
+  //   console.log(this.data);
+  // },
   props: {
     data: {
       type: Array,
@@ -122,11 +133,11 @@ export default {
   methods: {
     handleCommand(command) {
       if (command === "全部") {
-        this.data = this.originData;
+        this.currentData = this.data;
         this.$message.success("已选择全部");
         this.current = `全部`;
       } else {
-        this.data = this.originData.filter(
+        this.currentData = this.data.filter(
           (item) => item.idOfName === `${command}`
         );
         this.current = `${command} 系列`;
@@ -134,7 +145,7 @@ export default {
       }
     },
     handleClick() {
-      this.data = this.originData.filter((item) => {
+      this.currentData = this.data.filter((item) => {
         if (this.value1) {
           return item.name
             .toLowerCase()
@@ -147,7 +158,6 @@ export default {
     },
     handleEnter() {
       this.handleClick();
-      console.log(11);
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 1) {
