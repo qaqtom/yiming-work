@@ -36,7 +36,9 @@
     >
     </el-switch>
     <span
-      >下表数量：<span style="font-weight: bold">{{ data.length }}</span></span
+      >下表数量：<span style="font-weight: bold">{{
+        this.currentData.length
+      }}</span></span
     >
 
     <el-table
@@ -64,13 +66,16 @@
       </el-table-column>
     </el-table>
 
-    
+  
   </div>
 </template>
 
-<style >
+<style lang="less">
 .satellite-sheets-container {
   width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: auto;
 }
 .menu {
   cursor: pointer;
@@ -110,10 +115,7 @@ export default {
       immediate: true,
     },
   },
-  // mounted() {
-  //   this.currentData = this.data;
-  //   console.log(this.data);
-  // },
+
   props: {
     data: {
       type: Array,
@@ -130,6 +132,7 @@ export default {
       default: false,
     },
   },
+
   methods: {
     handleCommand(command) {
       if (command === "全部") {

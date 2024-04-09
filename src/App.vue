@@ -43,7 +43,7 @@ export default {
 
 <style lang="less">
 .container{
-  margin: 0 auto;
+  
   width: 100%;
   height: 100%;
 }
